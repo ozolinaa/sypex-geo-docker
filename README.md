@@ -1,25 +1,12 @@
-# sypex-geo-daemon
+# sypex-geo-docker
 
-ReactPHP HTTP daemon that resolves GEO information on given IP
+Forked from https://github.com/DevGroup-ru/sypex-geo-daemon/
 
-## Usage
+It is containerized using Docker:
+- `docker build . -t 'xtonyx/sypex-geo'`
+- `docker run -d -p 16001:16001 --name sypex-geo xtonyx/sypex-geo`
 
-*Tip:* This daemon works extremely fast with PHP7!
-
-Get the database file from [official SypexGEO site](https://sypexgeo.net/ru/download/). You need 'Sypex Geo City' database in UTF-8 encoding.
-
-Install [composer](http://getcomposer.org/download/) and run `composer install` or (`php composer.phar install`).
-
-Start the daemon:
-
-```bash
-
-php server.php --host=0.0.0.0 --port=16001
-
-```
-
-Make your simple requests. 
-For example this requests `http://127.0.0.1:16001/?ip=213.180.204.3` gives the following output(prettified for better look):
+http://127.0.0.1:16001/?ip=213.180.204.3
 
 ```json
 {
@@ -48,7 +35,3 @@ For example this requests `http://127.0.0.1:16001/?ip=213.180.204.3` gives the f
     "error": false
 }
 ```
-
-## Ping / Status monitoring
-
-You can ping the daemon for html response `http://0.0.0.0:16001/?ping=1` and `http://0.0.0.0:16001/?ping-json=1` for json response.
