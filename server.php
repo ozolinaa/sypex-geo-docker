@@ -52,6 +52,8 @@ try {
 
     $app = function (\React\Http\Request $request, \React\Http\Response $response) use ($SxGeo) {
 
+        $response_headers = array('Content-Type' => 'application/json; charset=utf-8', 'Access-Control-Allow-Origin' =>  '*');
+
         // log time
         $time_start = microtime(true);
 
@@ -64,7 +66,7 @@ try {
         if ($ip !== false) {
             echo "Got request for ip: '$ip'\n";
             try {
-                $response->writeHead(200, array('Content-Type' => 'application/json'));
+                $response->writeHead(200, $response_headers);
                 $data = $SxGeo->getCityFull($ip);
                 $time_end = microtime(true);
                 $data['time'] = number_format($time_end - $time_start, 12);
@@ -72,7 +74,7 @@ try {
                 $response->end(json_encode($data));
             } catch (\Exception $e) {
                 // on any error throw 500 and the whole error message
-                $response->writeHead(500, array('Content-Type' => 'application/json'));
+                $response->writeHead(500, $response_headers);
                 $data = [
                     'error' => true,
                     'message' => $e->getMessage(),
@@ -85,10 +87,10 @@ try {
                 $response->end(json_encode($data));
             }
         } elseif (isset($get['ping'])) {
-            $response->writeHead(200, array('Content-Type' => 'text/html'));
+            $response->writeHead(200, array('Content-Type' => 'text/html', 'Access-Control-Allow-Origin' =>  '*'));
             $response->end('pong');
         } elseif (isset($get['ping-json'])) {
-            $response->writeHead(200, array('Content-Type' => 'application/json'));
+            $response->writeHead(200, $response_headers);
             $response->end(json_encode([
                 'error' => false,
                 'success' => true,
@@ -96,7 +98,7 @@ try {
             ]));
         } else {
             // if ip is not provided
-            $response->writeHead(400, array('Content-Type' => 'application/json'));
+            $response->writeHead(400, $response_headers);
             $response->end(json_encode([
                 'error' => true,
                 'message' => 'Bad arguments',
