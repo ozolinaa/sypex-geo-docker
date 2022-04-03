@@ -4,7 +4,8 @@ Forked from https://github.com/DevGroup-ru/sypex-geo-daemon/
 
 It is containerized using Docker:
 - `docker build . -t 'xtonyx/sypex-geo'`
-- `docker run -d -p 16001:16001 --name sypex-geo xtonyx/sypex-geo`
+- `docker run -d --restart=unless-stopped -p 16001:16001 --name sypex-geo xtonyx/sypex-geo`
+
 
 http://127.0.0.1:16001/?ip=213.180.204.3
 
